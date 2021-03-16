@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react'
+import AxiosNews from './Components/AxiosNews/AxiosNews';
+import RecipeReview from './Components/RecipeReview/RecipeReview';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 function App() {
+  const [articles, setArticles] = useState([])
+  useEffect(() =>{
+    const url = ('http://newsapi.org/v2/everything?q=apple&from=2021-03-05&to=2021-03-05&sortBy=popularity&apiKey=648a47f69b5046a590f3e4960a2e5418')
+    axios(url)
+    .then(data => setArticles(data.data.articles))
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    
+      {
+        articles.map(article => <AxiosNews article={article}></AxiosNews>)
+      }
+      {
+        articles.map(article => <RecipeReview article={article}></RecipeReview>)
+      }
     </div>
   );
 }
